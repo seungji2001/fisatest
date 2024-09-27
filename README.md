@@ -59,3 +59,4 @@ pipeline {
     }
 }
 ```
+![image](https://github.com/user-attachments/assets/3d711507-c3d7-4f98-916d-4fc7527d0766)
