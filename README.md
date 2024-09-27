@@ -34,28 +34,28 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git branch: 'main', url: 'https://github.com/bigkhk/fisatest.git'
+                git branch: 'main', url: 'https://github.com/seungji2001/fisatest.git'
             }
         }
-          
-        stage('Build') {
+        
+         stage('Build') {
             steps {
-                dir('./step18_empApp') {                   
-                    sh 'chmod +x gradlew'                    
-                    sh './gradlew clean build -x test'
-                    sh 'echo $WORKSPACE'
+                script {
+                    // Move to the root directory where the pom.xml and mvnw are located
+                    dir("${WORKSPACE}") {
+                        // Make mvnw executable (optional if the permissions are already set)
+                        sh 'chmod +x mvnw'
+                        
+                        // Run Maven clean install using Maven Wrapper, skipping tests if needed
+                        sh './mvnw clean install -DskipTests'
+                        
+                        // Output the workspace directory
+                        sh 'echo $WORKSPACE'
+                    }
                 }
             }
         }
         
-        stage('Copy JAR') {  // 큰따옴표 오류 수정
-            steps {
-                script {
-                    def jarFile = 'step18_empApp/build/libs/step18_empApp-0.0.1-SNAPSHOT.jar'                   
-                    sh "cp ${jarFile} /var/jenkins_home/appjar/"
-                }
-            }
-        }
     }
 }
 ```
