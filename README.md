@@ -18,4 +18,10 @@ docker run --name myjenkins --privileged -p 8080:8080  -v  $(pwd)/appjardir:/var
 4단계 - container 내부의 var/jenkins_home/경로에 appjar 디렉토리 생성
 ```
 ![image](https://github.com/user-attachments/assets/fc917ee5-85be-4497-9006-ffe34c9c3e05)
+```bash
+ngrok http 8080
+```
 
+![image](https://github.com/user-attachments/assets/ae34c958-5a51-4fcd-9c7a-932b916ea1da)
+
+![image](https://github.com/user-attachments/assets/3c1c60e3-0b84-4088-9e91-27b5b6daa822)
