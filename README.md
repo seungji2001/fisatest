@@ -55,8 +55,36 @@ pipeline {
                 }
             }
         }
-        
+
+        //생성된 jarfile은 jenkins디렉토리 아래에 위치시키기
+        stage('Copy JAR') {
+            steps {
+                script {
+                    // Correct jarFile path to the actual JAR file, not the .original
+                    def jarFile = 'target/step19-1-0.0.1-SNAPSHOT.jar'
+                    sh "cp ${jarFile} /var/jenkins_home/appjar/"
+                }
+            }
+        }
     }
 }
 ```
 ![image](https://github.com/user-attachments/assets/3d711507-c3d7-4f98-916d-4fc7527d0766)
+
+
+Maven 프로젝트에서 JAR 파일은 기본적으로 target 디렉토리 아래에 생성됩니다.
+<br/>
+mvn clean install 또는 mvn clean package 명령어를 실행하면, Maven은 프로젝트를 빌드하고 결과물(JAR, WAR 등)을 target 디렉토리에 생성합니다.
+<br/>
+예시:
+프로젝트 루트에 있는 pom.xml 파일을 기준으로 빌드를 진행하면, 프로젝트 구조는 다음과 같이 됩니다:
+
+```bash
+/workspace/
+   ├── src/
+   ├── target/
+   │   ├── project-name-version.jar
+   ├── pom.xml
+```
+빌드 후, target/ 디렉토리 아래에 빌드된 JAR 파일이 위치하게 됩니다. 이 디렉토리는 Maven이 컴파일된 클래스 파일, 패키징된 파일(JAR, WAR 등)을 저장하는 기본 위치입니다.
+
