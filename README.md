@@ -25,3 +25,37 @@ ngrok http 8080
 ![image](https://github.com/user-attachments/assets/ae34c958-5a51-4fcd-9c7a-932b916ea1da)
 
 ![image](https://github.com/user-attachments/assets/3c1c60e3-0b84-4088-9e91-27b5b6daa822)
+
+파이프라인 작성
+```bash
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                git branch: 'main', url: 'https://github.com/bigkhk/fisatest.git'
+            }
+        }
+          
+        stage('Build') {
+            steps {
+                dir('./step18_empApp') {                   
+                    sh 'chmod +x gradlew'                    
+                    sh './gradlew clean build -x test'
+                    sh 'echo $WORKSPACE'
+                }
+            }
+        }
+        
+        stage('Copy JAR') {  // 큰따옴표 오류 수정
+            steps {
+                script {
+                    def jarFile = 'step18_empApp/build/libs/step18_empApp-0.0.1-SNAPSHOT.jar'                   
+                    sh "cp ${jarFile} /var/jenkins_home/appjar/"
+                }
+            }
+        }
+    }
+}
+```
